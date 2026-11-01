@@ -88,7 +88,7 @@ node scripts/test-audit.mjs      # 见下节「已知红测」
 |---|---|---|
 | `test-voice.mjs` / `test-voice-system.mjs` | 读 `dsh/agent-presets/qq-chat-v2/agent.cordis.yml` 断言工具默认值 | 语音模块本身的断言都通过；失败的是「DSH preset 里 sendVoice 默认值」这一段 |
 | `test-audit-regressions.mjs` | R22（挂起提问归属）、R23/R24（表情备注按会话隔离） | R22 需要 harness 导出更多内部映射；R23/R24 断言上游新增的 scope 隔离，本分支的表情写入路径尚未接 scope |
-| `test-audit-security-mcp.mjs` | 4/10 用例 | 断言点在 `mcp-host-server.js`（DSH 专用宿主），本仓库没有该文件 |
+| `test-audit-security-mcp.mjs` | 4/10 用例 | 用例读 `src/mcp-web-search-safe.js`（DSH 时代的 web 搜索 MCP，已被 `safe-fetch.js` 取代并清理），文件不存在即 ENOENT |
 
 > 这些用例保留在仓库里是为了**透明**：看一眼就知道哪些能力在本分支不存在。
 > 如果你在后续开发中补上了 scope 隔离（R23/R24），把对应用例改成绿即可。
