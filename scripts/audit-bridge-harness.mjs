@@ -22,6 +22,7 @@ import * as voiceLib from '../src/send-voice-lib.js';
 import * as presetPrompt from '../src/preset-prompt.js';
 import * as stateAcl from '../src/state-acl.mjs';
 import * as quietHours from '../src/quiet-hours.js';
+import * as roleCard from '../src/role-card.js';
 import { unwrap, createTurnCollector } from '../src/dsh-client.js';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -164,6 +165,9 @@ export async function bridgeHarness({ config = {}, savedState, files = {}, globa
       selfNickname = selfDisplayName.toLowerCase() || 'deepseek';
     },
     flushQueue, retireSession,
+    // 上游 0.2.1-r2 新增的测试会直接调这几个：发送分链、撤回占位、转发媒体登记。
+    sendBurstToQQ, handleRecallNotice, rememberForwardMedia,
+    setStickerEntries: (...args) => (typeof setStickerEntries === 'function' ? setStickerEntries(...args) : undefined),
     voiceCfg, voiceLibrary, resolveVoicePathForV2, resolveVoicePathForOperator,
     voiceBudgetCheck, sendVoiceV2, sendVoiceForV2, assertOutboundAuditOk,
     setMode(value) { currentMode = value; },
@@ -188,7 +192,27 @@ export async function bridgeHarness({ config = {}, savedState, files = {}, globa
     SnowLumaWebSocketClient: FakeBot, text: (s) => s,
     discoverDshLaunchToken: () => '', unwrap, createTurnCollector,
     ...markdown, ...sensitive, ...wait, ...safeFetch, ...forward, ...slang, ...sticker,
-    ...modelPrices, ...tokenLedger, ...voiceLib, ...stateAcl, ...presetPrompt, ...quietHours,
+    ...modelPrices, ...tokenLedger, ...voiceLib, ...stateAcl, ...presetPrompt, ...quietHours, ...roleCard,
+    // WorkBuddy CLI 会话驱动：审计测试不 spawn 真子进程（也不该污染 state/），
+    // 一律桩成「一轮即成功、无工具调用」。断言点在这些模块之外的行为上。
+    createWbSessionCli: () => ({
+      runTurn: async () => ({ ok: true, text: '', toolCalls: 0, durationMs: 0 }),
+      selfCheck: () => ({ ok: true, version: 'stub', sessionCount: 0, hint: '' }),
+      listSessions: () => [],
+      recentTurns: () => [],
+      transcriptPath: () => null,
+      resetSession: () => {},
+      sessionFor: () => ({ sessionId: null, turns: 0 }),
+      paths: { root: '' }
+    }),
+    readTranscript: () => ({ exists: false, turns: [], totalTurns: 0 }),
+    startModelFailover: () => ({
+      reportFailure: () => {},
+      setModel: () => ({ ok: true }),
+      getStatus: () => ({ current: 'stub', preferred: 'stub', chain: [], degraded: false }),
+      getCurrentModel: () => 'stub'
+    }),
+    failoverState: { degraded: false, model: null },
     // 桥接的出图出口会调归一化（体积/动图抽帧）：VM 里必须能拿到这几个函数。
     normalizeImageForModel: mediaNormalize.normalizeImageForModel,
     sniffImage: mediaNormalize.sniffImage,
@@ -219,7 +243,7 @@ export async function bridgeHarness({ config = {}, savedState, files = {}, globa
   // Execute the pure model view in the bridge realm. Its plain-object checks
   // should see the same prototypes as real bridge messages, just as in Node.
   const modelViewSource = fs.readFileSync(path.join(root, 'src/qq-model-view.js'), 'utf8').replace(/^export /gm, '');
-  vm.runInContext(`Object.assign(globalThis, (() => { ${modelViewSource}\nreturn { compactModelMessage, compactModelData, serializeModelData, describeAge }; })());`, context);
+  vm.runInContext(`Object.assign(globalThis, (() => { ${modelViewSource}\nreturn { compactModelMessage, compactModelData, serializeModelData, describeAge, sanitizeUntrustedText }; })());`, context);
   vm.runInContext(source + '\nglobalThis.auditReady = main();', context);
   const bridge = await context.auditReady;
   bridge.setPresets(['standard', 'qq-chat', 'qq-chat-v2']);

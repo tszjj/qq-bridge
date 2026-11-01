@@ -13,7 +13,8 @@
 > | 文档 | 内容 |
 > |---|---|
 > | [docs/PORTING.md](docs/PORTING.md) | **换一台机器部署**：用你自己的 WorkBuddy 账号跑起来（含环境自检脚本） |
-> | [docs/MCP_SETUP.md](docs/MCP_SETUP.md) | **MCP 工具安装**：`qq_*` 工具怎么注入、怎么放行、怎么验证 |
+> | [docs/UPSTREAM_SYNC.md](docs/UPSTREAM_SYNC.md) | **与上游同步**：已吸收 0.2.1-r2 的安全修复，说明放弃了哪些 DSH 改动 |
+| [docs/MCP_SETUP.md](docs/MCP_SETUP.md) | **MCP 工具安装**：`qq_*` 工具怎么注入、怎么放行、怎么验证 |
 > | [docs/guides/2026-11-01-CLI-SESSION-HANDOFF.md](docs/guides/2026-11-01-CLI-SESSION-HANDOFF.md) | 改造交接：架构现状、15 条踩坑、可依赖契约、遗留清单 |
 >
 > 环境没把握时先跑 `node scripts/check-env.mjs`，它会逐项告诉你缺什么。

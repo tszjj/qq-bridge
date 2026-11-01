@@ -17,6 +17,7 @@
 | [guides/DIALOG_CONSOLE.md](guides/DIALOG_CONSOLE.md) | 控制台「对话过程」页：桥接 ↔ WorkBuddy 收发记录、transcript 解析、脱敏 | ✅ |
 | [guides/TOKEN_USAGE_CONSOLE.md](guides/TOKEN_USAGE_CONSOLE.md) | 控制台「令牌与花费」看板（**已下线**，历史记录） | ❌ |
 | [guides/CONSOLE-UI-TESTING.md](guides/CONSOLE-UI-TESTING.md) | 控制台离线预览（`npm run preview:console`）与离线浏览器回归（`npm run test:console-ui`）怎么用 | ✅ 2026 整理时自 `scripts/` 移入 |
+| [UPSTREAM_SYNC.md](UPSTREAM_SYNC.md) | **与上游同步记录**：吸收了哪些安全修复、放弃哪些 DSH 改动、合并方法与已知红测 | ✅ |
 | [PORTING.md](PORTING.md) | **换机器部署**：依赖、配置必填项、CLI 探测顺序、SnowLuma 接入、验证清单 | ✅ |
 | [MCP_SETUP.md](MCP_SETUP.md) | **MCP 工具安装**：注入方式、工具清单、白名单放行、验证与排障 | ✅ |
 | [guides/REMOTE_ACCESS.md](guides/REMOTE_ACCESS.md) | **外网访问控制台**：:3100 打不开的三层原因、端口取舍、consoleBind/consoleAllowedHosts 配置、安全组与防火墙、反代注意事项 | ✅ |

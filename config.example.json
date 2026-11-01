@@ -10,6 +10,8 @@
     "allowRemote": false
   },
   "role": {
+    "injectEveryNWakes": 6,
+    "injectDedupeWindowMs": 1800000,
     "maxInjectChars": 6000
   },
   "snowluma": {
@@ -34,30 +36,30 @@
     "groups": []
   },
   "allowAllWhenEmpty": false,
+  "ignore": {
+    "sendQQ": []
+  },
   "ackMessage": "",
   "sendDelayMs": 300,
   "questionTimeoutMs": 300000,
   "consolePort": 3100,
   "consoleToken": "",
-  // ── 控制台监听（外网访问见 docs/guides/REMOTE_ACCESS.md）──────────────
-  // consoleBind 默认只绑回环；要局域网/公网访问改成 "0.0.0.0"，
-  // 并把允许的域名或 IP 写进 consoleAllowedHosts（"*" = 不校验 Host）。
   "consoleBind": "127.0.0.1",
   "consoleAllowedHosts": [],
-  // ── WorkBuddy / CodeBuddy CLI 后端（DSH 已退役，现在默认走这里）─────────
-  // 每 QQ 会话固定一个 CLI 会话（-p --resume），一轮一个子进程。
   "workbuddy": {
     "enabled": true,
     "modelId": "deepseek-v4.1-flash",
-    "modelFailover": ["deepseek-v4.1-flash", "glm-5.3-flash", "minimax-m3.1-flash"],
+    "modelFailover": [
+      "deepseek-v4.1-flash",
+      "glm-5.3-flash",
+      "minimax-m3.1-flash"
+    ],
     "failoverProbeMs": 900000,
     "reasoningEffort": "low",
     "cli": {
       "timeoutMs": 300000,
       "permissionMode": "acceptEdits",
-      // 非交互模式没有审批人，延迟加载的 MCP 工具必须走官方白名单放行。
       "allowedTools": "ToolSearch DeferExecuteTool",
-      // 一般留空：会自动探测 ~/.workbuddy/binaries 或 npm 全局。
       "nodeBin": "",
       "cliEntry": ""
     },
@@ -65,7 +67,10 @@
     "sessionMaxAgeMs": 21600000,
     "turnBudgetMs": 180000,
     "turnTimeoutMs": 300000,
-    "learner": { "enabled": true, "timeoutMs": 240000 },
+    "learner": {
+      "enabled": true,
+      "timeoutMs": 240000
+    },
     "forceReserved2": true
   },
   "pricing": {
@@ -135,6 +140,9 @@
     "longGapMaxMs": 10000
   },
   "socialV2": {
+    "privacy": {
+      "exposeUserId": false
+    },
     "enabled": true,
     "autoReplyCheckMs": 30000,
     "agentPreset": "qq-chat-v2",
