@@ -94,7 +94,7 @@ QQ 消息
 | 排除 B | CLI 无头自建登录（`codebuddy` TUI 登录后 `-p`） | 凭据静态加密 key 由桌面端托管（`category=missing-key`），standalone 进程 token 无法落盘。**产品边界，不要再试** |
 | **采用** | **官方 CLI `-p` + `--resume`，复用桌面端登录态** | 实测 `apiKeySource=copilot.tencent.com`，无需 API Key、无需付费套餐 |
 
-依据文档：`C:\Users\me\WorkBuddy\2026-11-01-03-10-29\会话接口调用说明.md`（另一会话探索产出，仍可作为 CLI 行为参考）。
+依据文档：`%USERPROFILE%\WorkBuddy\2026-11-01-03-10-29\会话接口调用说明.md`（另一会话探索产出，仍可作为 CLI 行为参考）。
 
 ---
 
@@ -173,7 +173,7 @@ QQ 消息
 - 测试必须 `@机器人` 或带关键词（如「凛」「杂鱼」），否则「没反应」是**设计行为**，容易误判改造失败。
 
 **F3. 会话档案与 transcript 路径编码**
-- cwd 反斜杠/盘符转小写横线：`C:\Users\...\state\wb-sessions\group_222222` → `c-Users-...-group_222222`。找不到 transcript 时先核对这个编码。
+- cwd 反斜杠/盘符转小写横线：`%USERPROFILE%\...\state\wb-sessions\group_222222` → `c-Users-...-group_222222`。找不到 transcript 时先核对这个编码。
 
 ---
 
@@ -293,7 +293,7 @@ tail -f qq-bridge/state/bridge.log
 
 ## 9. 可直接粘贴给新会话的开场提示词
 
-> 项目：`C:\Users\me\WorkBuddy\QQBOT`（QQ 机器人桥接 + SnowLuma）。后端已从 WorkBuddy automation 改为官方 CodeBuddy CLI 会话模式，实现在 `qq-bridge/src/wb-session-cli.js`（每 QQ 会话固定 sessionId，`-p --resume`，一轮一进程）。请先读 `qq-bridge/docs/guides/2026-11-01-CLI-SESSION-HANDOFF.md` 与 `qq-bridge/docs/audits/2026-11-01-架构与运行审阅.md`，再动手。
+> 项目：`%USERPROFILE%\WorkBuddy\QQBOT`（QQ 机器人桥接 + SnowLuma）。后端已从 WorkBuddy automation 改为官方 CodeBuddy CLI 会话模式，实现在 `qq-bridge/src/wb-session-cli.js`（每 QQ 会话固定 sessionId，`-p --resume`，一轮一进程）。请先读 `qq-bridge/docs/guides/2026-11-01-CLI-SESSION-HANDOFF.md` 与 `qq-bridge/docs/audits/2026-11-01-架构与运行审阅.md`，再动手。
 > 约束：① 桥接单文件不拆分；② 不加队列/租约，保持「进程即回合」；③ 不改 SnowLuma 代码；④ 所有删除先备份到 `_backup/`；⑤ 常驻进程由我双击 `qq-bridge\start.bat` 启动，你不要在工具里起常驻进程。
 > 本轮目标：先修交接文档 §6-#1（增量轮缺 agentToken），再做多群并行压测。改完只测试、不写审阅报告。
 
@@ -303,8 +303,8 @@ tail -f qq-bridge/state/bridge.log
 
 | 内容 | 路径 |
 |---|---|
-| CLI 会话调用说明（另一会话探索产出） | `C:\Users\me\WorkBuddy\2026-11-01-03-10-29\会话接口调用说明.md` |
-| 封装脚本参考实现 | `C:\Users\me\WorkBuddy\2026-11-01-03-10-29\scripts\wb_session.mjs` |
+| CLI 会话调用说明（另一会话探索产出） | `%USERPROFILE%\WorkBuddy\2026-11-01-03-10-29\会话接口调用说明.md` |
+| 封装脚本参考实现 | `%USERPROFILE%\WorkBuddy\2026-11-01-03-10-29\scripts\wb_session.mjs` |
 | 架构与运行审阅（问题清单） | `qq-bridge/docs/audits/2026-11-01-架构与运行审阅.md` / `.html` |
 | 改造前快照 | `_backup/2026-11-01-cli-refactor/` |
 | 清理清单 | `_backup/2026-11-01-cleanup/MANIFEST.txt` |

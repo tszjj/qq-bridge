@@ -187,7 +187,7 @@ WorkBuddy 每次唤醒都是全新会话，桥接拿不到模型输出。学习�
 查表：
 
 ```bash
-node -e "const{DatabaseSync}=require('node:sqlite');const db=new DatabaseSync('C:/Users/Administrator/.workbuddy/workbuddy.db');console.log(db.prepare(\"SELECT id,name,status,schedule_type,scheduled_at,last_run_at FROM automations WHERE name LIKE 'QQBOT%'\").all());db.close();"
+node -e "const{DatabaseSync}=require('node:sqlite');const db=new DatabaseSync('%USERPROFILE%/.workbuddy/workbuddy.db');console.log(db.prepare(\"SELECT id,name,status,schedule_type,scheduled_at,last_run_at FROM automations WHERE name LIKE 'QQBOT%'\").all());db.close();"
 ```
 
 ## 8. 已知差异与注意
@@ -215,7 +215,7 @@ WorkBuddy 的 automation **每次运行都新建一个 session**，跑完置 `st
 安装包里自带完整 agent CLI：
 
 ```
-C:\Users\me\AppData\Local\Programs\WorkBuddy\resources\app.asar.unpacked\cli\bin\codebuddy
+%USERPROFILE%\AppData\Local\Programs\WorkBuddy\resources\app.asar.unpacked\cli\bin\codebuddy
 ```
 
 它支持本方案需要的全部开关：
